@@ -7,6 +7,7 @@ namespace Telekinesis
     public class ResetControlledObjectPosition : MonoBehaviour
     {
         public Transform ResetPoint;
+        public Vector3 ResetPositionOffset = new Vector3(0, 0, 2f);
 
         void Start()
         {
@@ -15,7 +16,7 @@ namespace Telekinesis
 
         private void Reset()
         {
-            transform.position = ResetPoint.position;
+            transform.position = ResetPoint.position + ResetPositionOffset;
             transform.rotation = ResetPoint.rotation;
         }
 
