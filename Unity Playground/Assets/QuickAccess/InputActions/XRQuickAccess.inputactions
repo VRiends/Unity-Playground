@@ -1,0 +1,112 @@
+{
+    "name": "XRQuickAccess",
+    "maps": [
+        {
+            "name": "QuickAccessMenu",
+            "id": "a1bc8fc4-05ad-46a5-a1f4-6da4615b6145",
+            "actions": [
+                {
+                    "name": "grab",
+                    "type": "Value",
+                    "id": "0a4320ee-c790-48a7-a501-a722414261fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "turn",
+                    "type": "Value",
+                    "id": "cafaa5cb-789f-4dac-92bb-cc205edec5bd",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "openMenu",
+                    "type": "Button",
+                    "id": "9cdbe63d-0898-44f0-8c00-f64d1df21bec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "gripButton",
+                    "type": "Button",
+                    "id": "4e89d3b2-66d7-4911-af03-8aaf6176f69e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0e12f807-f57f-4fa5-a1c4-3416ce9b9fec",
+                    "path": "<XRController>/touchpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "afa0e9dd-d8f0-4479-9a0e-03db13444810",
+                    "path": "<XRController>/menuButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "openMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f712a758-a698-4bca-9b17-72d4911ae8ee",
+                    "path": "<XRController>/triggerButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "82411f71-ef17-4df0-9f0c-164741780336",
+                    "path": "<XRController>/gripButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "gripButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "XR",
+            "bindingGroup": "XR",
+            "devices": [
+                {
+                    "devicePath": "<XRController>{LeftHand}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<XRController>{RightHand}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<XRHMD>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 350633797}
   - component: {fileID: 350633796}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: PlayerInputTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: a127769d02845f14ea4e0d35bc780184, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 1c403fdfe6ee36f47ad9d2ce02ee4201, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -228,18 +228,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3e3c8c40-fa3f-4e7b-a9bb-ec96b63cb4f4
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 4ccfad29-cdca-41a7-8892-eac2d918e03c
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c0ad6c97-876a-4462-b4e9-cd1e6ec99e4c
-    m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 350633796}
@@ -254,51 +242,59 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 741a921c-639c-43da-bc2a-99e33c92d422
-    m_ActionName: Player/xrTestAction
+    m_ActionId: 0a4320ee-c790-48a7-a501-a722414261fa
+    m_ActionName: QuickAccessMenuLeft/grab
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6f074630-e668-4fa7-ac9d-8a49d7be6618
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+      m_Calls:
+      - m_Target: {fileID: 350633796}
+        m_TargetAssemblyTypeName: TestPlayerScript, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cafaa5cb-789f-4dac-92bb-cc205edec5bd
+    m_ActionName: QuickAccessMenuLeft/turn
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 027f31dc-5f8a-43bc-bbb7-d6301b0c2d11
-    m_ActionName: UI/Submit[/Keyboard/enter]
+      m_Calls:
+      - m_Target: {fileID: 350633796}
+        m_TargetAssemblyTypeName: TestPlayerScript, Assembly-CSharp
+        m_MethodName: OpenMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9cdbe63d-0898-44f0-8c00-f64d1df21bec
+    m_ActionName: QuickAccessMenuLeft/openMenu
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9814c976-f5d9-4040-b281-67d734934c75
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: df722cf9-c572-44e0-80ee-ea64f2c2a1b8
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8f44a25e-e365-4796-859c-1a9e5a3e4927
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 90d56a7e-7187-4b38-95f2-cac3b91306e3
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b765bab8-4ced-4b88-ad7c-9a93bbe92cb7
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 754c5f36-b68c-40b7-9706-f6a99bd2ff34
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cd08463d-6eb8-46d8-a2bf-6d42d96d2190
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9f7082a5-ab5c-4b2f-8e0b-6b4fe97e4159
-    m_ActionName: UI/TrackedDeviceOrientation
+      m_Calls:
+      - m_Target: {fileID: 350633796}
+        m_TargetAssemblyTypeName: TestPlayerScript, Assembly-CSharp
+        m_MethodName: GripButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4e89d3b2-66d7-4911-af03-8aaf6176f69e
+    m_ActionName: QuickAccessMenu/gripButton
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: QuickAccessMenu
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!4 &350633798
