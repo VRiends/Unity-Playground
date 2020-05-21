@@ -1,0 +1,226 @@
+{
+    "name": "RiftS",
+    "maps": [
+        {
+            "name": "Telekinesis",
+            "id": "fc647f37-74d7-48f3-a474-854209c685eb",
+            "actions": [
+                {
+                    "name": "Trigger",
+                    "type": "Button",
+                    "id": "5b4246d5-876b-4479-b26f-496ade13f122",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grip",
+                    "type": "Button",
+                    "id": "fdc5a809-badd-4a7c-aa6c-00bbd5f5d709",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AButton",
+                    "type": "Button",
+                    "id": "b8792751-fc6a-41b4-8c1a-eea5ddbab62c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "BButton",
+                    "type": "Button",
+                    "id": "d4817ee1-3542-4065-9433-aa66a881ae30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "YButton",
+                    "type": "Button",
+                    "id": "6d3800da-0f47-452d-a531-2bb9d7ff6817",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "XButton",
+                    "type": "Button",
+                    "id": "5749e1ba-8779-4fcf-9543-51b56bcff296",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightThumbstickX",
+                    "type": "Value",
+                    "id": "98962c8b-f6b3-44bc-9281-4e4256f2b30a",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightThumbstickY",
+                    "type": "Value",
+                    "id": "67e71151-cddc-4f1d-8d42-4646e6f3fd80",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LeftThumbstickX",
+                    "type": "Value",
+                    "id": "07825961-8fd9-49a7-a241-ec6d6b19aef0",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LeftThumbstickY",
+                    "type": "Value",
+                    "id": "f7fecbf6-f4be-4bc0-9dd9-b72516590ca0",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "207a1fe6-8e87-45da-b4fd-856c37808b5b",
+                    "path": "<OpenVROculusTouchController>/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b3067d5-2207-4133-ad0e-4eb8c840c777",
+                    "path": "<OpenVROculusTouchController>/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "398b5541-26b5-45e4-ae49-f14b58e0d051",
+                    "path": "<OpenVROculusTouchController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71e2c3d7-3144-4ac3-ae1b-d79e2834158e",
+                    "path": "<OpenVROculusTouchController>{RightHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25befc8d-221d-4346-9e41-8dd3241194cc",
+                    "path": "<OpenVROculusTouchController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "YButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d10be30a-f7b1-4cf5-b853-f98fc2114d38",
+                    "path": "<OpenVROculusTouchController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "XButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc3333c0-0c6a-4d26-98b5-599518a4cba4",
+                    "path": "<OpenVROculusTouchController>{RightHand}/thumbstick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightThumbstickX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc69fc3a-7987-4eb7-b10e-370153db1a8e",
+                    "path": "<OpenVROculusTouchController>{RightHand}/thumbstick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightThumbstickY",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8448ae24-01c5-4c4a-951f-124c23a8234b",
+                    "path": "<OpenVROculusTouchController>{LeftHand}/thumbstick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftThumbstickX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b401671-2a7d-4adf-b19e-1ab613fc8879",
+                    "path": "<OpenVROculusTouchController>{LeftHand}/thumbstick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftThumbstickY",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "RiftS",
+            "bindingGroup": "RiftS",
+            "devices": [
+                {
+                    "devicePath": "<OpenVROculusTouchController>{RightHand}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<OpenVROculusTouchController>{LeftHand}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<OpenVRHMD>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
