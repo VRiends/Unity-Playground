@@ -1,6 +1,5 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
+using VRPlayground.Extensions;
 
 namespace Telekinesis
 {
@@ -9,21 +8,11 @@ namespace Telekinesis
         public bool IsRightHand = true;
         public Transform Head;
         public Transform ObjectToManipulate;
-        public float BeamMinLength = 0.25f;
-        public float BeamMaxLength = 15.0f;
         public AnimationCurve BeamLengthRatioCurve;
 
-        private Vector3 beamDirection;
-        private float beamLengthRatio = 1.0f;
         private float beamLength = 0.25f;
         private float handHeadMaxDistance = 0.6f;
-        private float handHeadMinDistance = 0.23f;
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawLine(transform.position, transform.position + beamDirection);
-        }
+        private float handHeadMinDistance = 0.35f;
 
         private void Awake()
         {
@@ -32,7 +21,7 @@ namespace Telekinesis
 
         private void Update()
         {
-            //CalculateBeamLength();
+            CalculateBeamLength();
             SetObjectTransform();
 
             if (Input.GetKeyDown(KeyCode.M))
@@ -54,13 +43,16 @@ namespace Telekinesis
         private void CalculateBeamLength()
         {
             float headDistance = CalculateHandHeadDistance();
-            float clampedHeadDistance = Mathf.Lerp(BeamMinLength, BeamMaxLength, headDistance);
-            beamLength = beamLength * clampedHeadDistance;
+            
+            if (headDistance < handHeadMinDistance) headDistance = handHeadMinDistance;
+            if (headDistance > handHeadMaxDistance) headDistance = handHeadMaxDistance;
+
+            var mappedDistance = headDistance.Map(handHeadMinDistance, handHeadMaxDistance, 0, 1.0f);
+            beamLength = BeamLengthRatioCurve.Evaluate(mappedDistance);
         }
 
         private void SetObjectTransform()
         {
-            // ObjectToManipulate.transform.rotation = transform.rotation;
             if (IsRightHand)
             {
                 ObjectToManipulate.transform.position = transform.position + transform.right * (-1 * beamLength);
