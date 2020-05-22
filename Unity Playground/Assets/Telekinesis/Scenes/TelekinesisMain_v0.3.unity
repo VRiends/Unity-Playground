@@ -388,7 +388,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransformToFollow: {fileID: 2072377485}
-  QueueCapacity: 15
+  Speed: 2
+  RecalculateJourneyTime: 0.05
 --- !u!4 &617526636
 Transform:
   m_ObjectHideFlags: 0

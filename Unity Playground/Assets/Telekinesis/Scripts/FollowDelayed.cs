@@ -7,22 +7,41 @@ namespace Telekinesis
     public class FollowDelayed : MonoBehaviour
     {
         public Transform TransformToFollow;
-        public int QueueCapacity = 45;
+        public float Speed = 2f;
+        public float RecalculateJourneyTime = 0.1f;
 
-        private Queue<Vector3> positionQueue;
+        private Vector3 targetPosition;
+        private float startTime;
+        private float journeyLength;
 
-        private void Awake()
+        private void Start()
         {
-            positionQueue = new Queue<Vector3>(QueueCapacity);
+            PrepareJourney();
+            InvokeRepeating("PrepareJourney", 0, RecalculateJourneyTime);
         }
 
+        private void PrepareJourney()
+        {
+            startTime = Time.time;
+            targetPosition = TransformToFollow.position;
+            journeyLength = Vector3.Distance(transform.position, targetPosition);
+        }
+        
         private void Update()
         {
-            if (positionQueue.Count == QueueCapacity)
+            if (TransformToFollow.position != transform.position)
             {
-                transform.position = positionQueue.Dequeue();
+                DoJourney();
             }
-            positionQueue.Enqueue(TransformToFollow.position);
+        }
+
+        private void DoJourney()
+        {
+            float distCovered = (Time.time - startTime) * Speed;
+
+            float fractionOfJourney = distCovered / journeyLength;
+
+            transform.position = Vector3.Lerp(transform.position, targetPosition, fractionOfJourney);
         }
     }
 }
