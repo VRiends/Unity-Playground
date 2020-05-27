@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class SphereSectionGenerator : MonoBehaviour
 {
@@ -43,52 +44,92 @@ public class SphereSectionGenerator : MonoBehaviour
         {
             Mesh sphereSection = new Mesh();
 
-            MeshData meshData = new MeshData();
+            Mesh outerAndInnerSurfaces = CreateInnerAndOuterSphereSurface(resolution);
 
+            CombineInstance[] combine = new CombineInstance[3];
+            combine[0].mesh = outerAndInnerSurfaces;
+            //combine[1].mesh = LeftAndRightSurfaces;
+            //combine[2].mesh = TopAndBottomSurfaces;
+
+            sphereSection.CombineMeshes(combine, true, false);
+
+            sphereSection.RecalculateNormals();
+            sphereSection.Optimize();
+
+            return sphereSection;
+        }
+
+        private Mesh CreateInnerAndOuterSphereSurface(float resolution)
+        {
+            MeshData outerSurfaceData = new MeshData();
+            MeshData innerSurfaceData = new MeshData();
+            // TODO does not work as intended, yet
             float angleIncr = Mathf.Acos(-1 * (resolution * resolution) / (-2 * outerRadius * outerRadius));
             float horizontalInkrement = angleIncr / Vector3.Angle(PointA, PointD);
             float verticalIncrement = angleIncr / Vector3.Angle(PointA, PointB);
 
-            int vertsPerRowOld = (int) Mathf.Ceil(1 / horizontalInkrement);
             int vertsPerRow = 0;
-            int currentVertIndex = 0;
 
-            for (float ver= 0; ver <=1; ver = incValue(ver, verticalIncrement))
+
+            // create outer and inner Sphere surfaces
+            for (float ver = 0; ver <= 1; ver = incValue(ver, verticalIncrement))
             {
                 // TODO do I need to normalize these?
                 Vector3 leftInterpolant = Vector3.Slerp(PointA, PointB, ver);
                 Vector3 rightInterpolant = Vector3.Slerp(PointD, PointC, ver);
-                for (float hor = 0; hor <=1; hor = incValue(hor, horizontalInkrement))
+                for (float hor = 0; hor <= 1; hor = incValue(hor, horizontalInkrement))
                 {
-                    if(ver == 0)
+                    if (ver == 0)
                     {
                         vertsPerRow++;
                     }
-                    meshData.vertices.Add(outerRadius * Vector3.Slerp(leftInterpolant, rightInterpolant, hor));
-                    currentVertIndex = meshData.vertices.Count -1;
+                    outerSurfaceData.vertices.Add(outerRadius * Vector3.Slerp(leftInterpolant, rightInterpolant, hor));
+                    innerSurfaceData.vertices.Add(innerRadius * Vector3.Slerp(leftInterpolant, rightInterpolant, hor));
+                                       
                     // TODO generate more usefull uvs
-                    meshData.uvCoords.Add(new Vector2(ver, hor));
+                    outerSurfaceData.uvCoords.Add(new Vector2(ver, hor));
+                    innerSurfaceData.uvCoords.Add(new Vector2(ver, hor));
                     if (ver > 0 && hor > 0)
                     {
-                        meshData.triangles.Add(currentVertIndex);
-                        meshData.triangles.Add(currentVertIndex-1);
-                        meshData.triangles.Add(currentVertIndex - vertsPerRow);
-
-                        meshData.triangles.Add(currentVertIndex - 1);
-                        meshData.triangles.Add(currentVertIndex - 1 - vertsPerRow);
-                        meshData.triangles.Add(currentVertIndex - vertsPerRow);
+                        AddTrianglesOnSphere(vertsPerRow, ref outerSurfaceData);
+                        AddTrianglesOnSphere(vertsPerRow, ref innerSurfaceData);                       
                     }
                 }
             }
-            
-            
 
+            Mesh innerSurface = new Mesh();
+            innerSurface.vertices = innerSurfaceData.vertices.ToArray();
+            innerSurface.uv = innerSurfaceData.uvCoords.ToArray();
+            innerSurfaceData.triangles.Reverse();
+            innerSurface.triangles = innerSurfaceData.triangles.ToArray();
 
-            sphereSection.vertices = meshData.vertices.ToArray();
-            sphereSection.uv = meshData.uvCoords.ToArray();
-            sphereSection.triangles = meshData.triangles.ToArray();
+            Mesh outerSurface = new Mesh();
+            outerSurface.vertices = outerSurfaceData.vertices.ToArray();
+            outerSurface.uv= outerSurfaceData.uvCoords.ToArray();
+            outerSurface.triangles = outerSurfaceData.triangles.ToArray();
 
-            return sphereSection;
+            Mesh output = new Mesh();
+
+            CombineInstance[] combine = new CombineInstance[2];
+            combine[0].mesh = innerSurface;
+            combine[1].mesh = outerSurface;
+
+            output.CombineMeshes(combine,true,false);
+
+            return output;
+
+        }
+
+        private void AddTrianglesOnSphere(int vertsPerRow, ref MeshData meshData)
+        {
+            int currentVertIndex = meshData.vertices.Count - 1;
+            meshData.triangles.Add(currentVertIndex);
+            meshData.triangles.Add(currentVertIndex - 1);
+            meshData.triangles.Add(currentVertIndex - vertsPerRow);
+
+            meshData.triangles.Add(currentVertIndex - 1);
+            meshData.triangles.Add(currentVertIndex - 1 - vertsPerRow);
+            meshData.triangles.Add(currentVertIndex - vertsPerRow);
         }
 
         private float incValue(float curr, float increment)
