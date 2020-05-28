@@ -64,9 +64,15 @@ public class SphereSectionGenerator : MonoBehaviour
             MeshData outerSurfaceData = new MeshData();
             MeshData innerSurfaceData = new MeshData();
             // TODO does not work as intended, yet
-            float angleIncr = Mathf.Acos(-1 * (resolution * resolution) / (-2 * outerRadius * outerRadius));
+            float cosVal =  ((resolution * resolution) - 2 * (outerRadius * outerRadius)) / (-2 * outerRadius * outerRadius);
+            float angleIncr = Mathf.Rad2Deg * Mathf.Acos(cosVal);
             float horizontalInkrement = angleIncr / Vector3.Angle(PointA, PointD);
             float verticalIncrement = angleIncr / Vector3.Angle(PointA, PointB);
+
+            Debug.Log($"cosval:{cosVal}");
+            Debug.Log($"angleIncr:{angleIncr}");
+            Debug.Log($"horiztontalIncr:{horizontalInkrement}");
+            Debug.Log($"verticalIncrement:{verticalIncrement}");
 
             int vertsPerRow = 0;
 
