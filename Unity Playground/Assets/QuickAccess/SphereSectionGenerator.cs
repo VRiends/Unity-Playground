@@ -40,16 +40,19 @@ public class SphereSectionGenerator : MonoBehaviour
         /// </summary>
         /// <param name="resolution">distance between neighbouring vertices on the outside</param>
         /// <returns></returns>
+        // TODO: Handle Edgecase when innerRadius is 0
         public Mesh CreateMesh(float resolution)
         {
             Mesh sphereSection = new Mesh();
 
             Mesh outerAndInnerSurfaces = CreateInnerAndOuterSphereSurface(resolution);
+            Mesh leftAndRightSurfaces = CreateLeftAndRightSurfaces(resolution);
+            Mesh topAndBottomSurfaces = CreateTopAndBottomSurfaces(resolution);
 
             CombineInstance[] combine = new CombineInstance[3];
             combine[0].mesh = outerAndInnerSurfaces;
-            //combine[1].mesh = LeftAndRightSurfaces;
-            //combine[2].mesh = TopAndBottomSurfaces;
+            combine[1].mesh = leftAndRightSurfaces;
+            combine[2].mesh = topAndBottomSurfaces;
 
             sphereSection.CombineMeshes(combine, true, false);
 
@@ -59,20 +62,94 @@ public class SphereSectionGenerator : MonoBehaviour
             return sphereSection;
         }
 
+        private Mesh CreateLeftAndRightSurfaces(float resolution)
+        {
+            MeshData leftSurfaceData = new MeshData();
+            MeshData rightSurfaceData = new MeshData();
+            float cosVal = ((resolution * resolution) - 2 * (outerRadius * outerRadius)) / (-2 * outerRadius * outerRadius);
+            float angleIncr = Mathf.Rad2Deg * Mathf.Acos(cosVal);
+            float horizontalInkrement = resolution/(outerRadius - innerRadius);
+            float verticalIncrement = angleIncr / Vector3.Angle(PointA, PointB);
+
+            int vertsPerRow = 0;
+
+            // create left and right surfaces of sprhere section
+            for (float ver = 0; ver <= 1; ver = incValue(ver, verticalIncrement))
+            {
+                // TODO do I need to normalize these?
+                Vector3 leftInterpolant = Vector3.Slerp(PointA, PointB, ver);
+                Vector3 rightInterpolant = Vector3.Slerp(PointD, PointC, ver);
+                for (float hor = 0; hor <= 1; hor = incValue(hor, horizontalInkrement))
+                {
+                    if (ver == 0)
+                    {
+                        vertsPerRow++;
+                    }
+                    leftSurfaceData.vertices.Add((innerRadius + hor * (outerRadius - innerRadius)) * leftInterpolant);
+                    rightSurfaceData.vertices.Add((innerRadius + hor * (outerRadius - innerRadius)) * rightInterpolant);
+                                       
+                    // TODO generate more usefull uvs
+                    leftSurfaceData.uvCoords.Add(new Vector2(ver, hor));
+                    rightSurfaceData.uvCoords.Add(new Vector2(ver, hor));
+                    if (ver > 0 && hor > 0)
+                    {
+                        AddTrianglesOnSphere(vertsPerRow, ref leftSurfaceData);
+                        AddTrianglesOnSphere(vertsPerRow, ref rightSurfaceData);                       
+                    }
+                }
+            }
+
+            return CreateCombinedMesh(rightSurfaceData, leftSurfaceData);
+        }
+
+        private Mesh CreateTopAndBottomSurfaces(float resolution)
+        {
+            MeshData topSurfaceData = new MeshData();
+            MeshData bottomSurfaceData = new MeshData();
+            float cosVal = ((resolution * resolution) - 2 * (outerRadius * outerRadius)) / (-2 * outerRadius * outerRadius);
+            float angleIncr = Mathf.Rad2Deg * Mathf.Acos(cosVal);
+            float horizontalInkrement = angleIncr / Vector3.Angle(PointA, PointD);
+            float verticalIncrement = resolution / (outerRadius - innerRadius); 
+
+            int vertsPerRow = 0;
+
+            // create left and right surfaces of sprhere section
+            for (float hor = 0; hor <= 1; hor = incValue(hor, horizontalInkrement))
+            {
+                // TODO do I need to normalize these?
+                Vector3 topInterpolant = Vector3.Slerp(PointB, PointC, hor);
+                Vector3 bottomInterpolant = Vector3.Slerp(PointA, PointD, hor);
+                for (float ver = 0; ver <= 1; ver = incValue(ver, verticalIncrement))
+                {
+                    if (hor == 0)
+                    {
+                        vertsPerRow++;
+                    }
+                    topSurfaceData.vertices.Add((innerRadius + ver * (outerRadius - innerRadius)) * topInterpolant);
+                    bottomSurfaceData.vertices.Add((innerRadius + ver * (outerRadius - innerRadius)) * bottomInterpolant);
+
+                    // TODO generate more usefull uvs
+                    topSurfaceData.uvCoords.Add(new Vector2(hor, ver));
+                    bottomSurfaceData.uvCoords.Add(new Vector2(hor, ver));
+                    if (hor > 0 && ver > 0)
+                    {
+                        AddTrianglesOnSphere(vertsPerRow, ref topSurfaceData);
+                        AddTrianglesOnSphere(vertsPerRow, ref bottomSurfaceData);
+                    }
+                }
+            }
+
+            return CreateCombinedMesh(bottomSurfaceData, topSurfaceData);
+        }
+
         private Mesh CreateInnerAndOuterSphereSurface(float resolution)
         {
             MeshData outerSurfaceData = new MeshData();
             MeshData innerSurfaceData = new MeshData();
-            // TODO does not work as intended, yet
             float cosVal =  ((resolution * resolution) - 2 * (outerRadius * outerRadius)) / (-2 * outerRadius * outerRadius);
             float angleIncr = Mathf.Rad2Deg * Mathf.Acos(cosVal);
             float horizontalInkrement = angleIncr / Vector3.Angle(PointA, PointD);
             float verticalIncrement = angleIncr / Vector3.Angle(PointA, PointB);
-
-            Debug.Log($"cosval:{cosVal}");
-            Debug.Log($"angleIncr:{angleIncr}");
-            Debug.Log($"horiztontalIncr:{horizontalInkrement}");
-            Debug.Log($"verticalIncrement:{verticalIncrement}");
 
             int vertsPerRow = 0;
 
@@ -103,27 +180,32 @@ public class SphereSectionGenerator : MonoBehaviour
                 }
             }
 
-            Mesh innerSurface = new Mesh();
-            innerSurface.vertices = innerSurfaceData.vertices.ToArray();
-            innerSurface.uv = innerSurfaceData.uvCoords.ToArray();
-            innerSurfaceData.triangles.Reverse();
-            innerSurface.triangles = innerSurfaceData.triangles.ToArray();
+            return CreateCombinedMesh(innerSurfaceData, outerSurfaceData);
 
-            Mesh outerSurface = new Mesh();
-            outerSurface.vertices = outerSurfaceData.vertices.ToArray();
-            outerSurface.uv= outerSurfaceData.uvCoords.ToArray();
-            outerSurface.triangles = outerSurfaceData.triangles.ToArray();
+        }
+
+        private Mesh CreateCombinedMesh(MeshData meshDataA, MeshData meshDataB)
+        {
+            Mesh meshA = new Mesh();
+            meshA.vertices = meshDataA.vertices.ToArray();
+            meshA.uv = meshDataA.uvCoords.ToArray();
+            meshDataA.triangles.Reverse();
+            meshA.triangles = meshDataA.triangles.ToArray();
+
+            Mesh meshB = new Mesh();
+            meshB.vertices = meshDataB.vertices.ToArray();
+            meshB.uv = meshDataB.uvCoords.ToArray();
+            meshB.triangles = meshDataB.triangles.ToArray();
 
             Mesh output = new Mesh();
 
             CombineInstance[] combine = new CombineInstance[2];
-            combine[0].mesh = innerSurface;
-            combine[1].mesh = outerSurface;
+            combine[0].mesh = meshA;
+            combine[1].mesh = meshB;
 
-            output.CombineMeshes(combine,true,false);
+            output.CombineMeshes(combine, true, false);
 
             return output;
-
         }
 
         private void AddTrianglesOnSphere(int vertsPerRow, ref MeshData meshData)
